@@ -16,6 +16,21 @@ namespace GitLabApi
         public string ServerUrl { get; set; } = "https://gitlab.com";
         public string PrivateToken { get; set; }
 
+        public async Task<IEnumerable<Milestone>> ListMilestonesAsync(string projectNamespace)
+        {
+            try
+            {
+                var qsb = CreateQueryStringBuilder();
+                var url = CreateUrl("/projects/{0}/milestones", projectNamespace);
+
+                return await GetAllPagesAsync<Milestone>(url, qsb);
+            }
+            catch (Exception ex)
+            {
+                throw new GitLabApiException("An error has occurred", ex);
+            }
+        }
+
         public async Task<IEnumerable<Issue>> ListIssuesAsync()
         {
             return await ListIssuesAsync(null);
