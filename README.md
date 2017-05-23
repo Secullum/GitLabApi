@@ -13,3 +13,9 @@ var issues = await client.ListProjectIssuesAsync("group/proj");
 
 // Do something with issues...
 ```
+
+## Install
+
+```
+PM> Install-Package Secullum.GitLabApi
+```
