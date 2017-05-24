@@ -18,10 +18,17 @@ namespace GitLabApi
 
         public async Task<IEnumerable<Milestone>> ListMilestonesAsync(string projectNamespace)
         {
+            return await ListMilestonesAsync(projectNamespace, null);
+        }
+
+        public async Task<IEnumerable<Milestone>> ListMilestonesAsync(string projectNamespace, ListMilestonesFilters filters)
+        {
             try
             {
                 var qsb = CreateQueryStringBuilder();
                 var url = CreateUrl("/projects/{0}/milestones", projectNamespace);
+
+                filters?.AddToQueryString(qsb);
 
                 return await GetAllPagesAsync<Milestone>(url, qsb);
             }
