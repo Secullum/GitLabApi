@@ -38,6 +38,21 @@ namespace GitLabApi
             }
         }
 
+        public async Task<Milestone> GetMilestoneAsync(string projectNamespace, int milestoneId)
+        {
+            try
+            {
+                var qsb = CreateQueryStringBuilder();
+                var url = CreateUrl("/projects/{0}/milestones/{1}", projectNamespace, milestoneId.ToString());
+
+                return await GetJsonAsync<Milestone>(url, qsb);
+            }
+            catch (Exception ex)
+            {
+                throw new GitLabApiException("An error has occurred", ex);
+            }
+        }
+
         public async Task<IEnumerable<Issue>> ListIssuesAsync()
         {
             return await ListIssuesAsync(null);
@@ -117,7 +132,7 @@ namespace GitLabApi
             {
                 qsb.SetValue("page", (page++).ToString());
 
-                items = await GetJsonAsync<IEnumerable<TElement>>(url + qsb.ToString());
+                items = await GetJsonAsync<IEnumerable<TElement>>(url, qsb);
 
                 result.AddRange(items);
 
@@ -126,11 +141,11 @@ namespace GitLabApi
             return result;
         }
 
-        private async Task<TResult> GetJsonAsync<TResult>(string url)
+        private async Task<TResult> GetJsonAsync<TResult>(string url, QueryStringBuilder qsb)
         {
             var httpClient = new HttpClient();
 
-            var response = await httpClient.GetAsync(url);
+            var response = await httpClient.GetAsync(url + qsb.ToString());
 
             response.EnsureSuccessStatusCode();
 
