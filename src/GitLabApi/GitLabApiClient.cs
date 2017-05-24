@@ -102,8 +102,9 @@ namespace GitLabApi
             var result = new List<TElement>();
             var items = Enumerable.Empty<TElement>();
             var page = 1;
+            var perPage = 100;
 
-            qsb.SetValue("per_page", "100");
+            qsb.SetValue("per_page", perPage.ToString());
 
             do
             {
@@ -113,7 +114,7 @@ namespace GitLabApi
 
                 result.AddRange(items);
 
-            } while (items.Count() > 0);
+            } while (items.Count() == perPage);
 
             return result;
         }
