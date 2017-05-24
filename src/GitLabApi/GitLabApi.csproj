@@ -4,7 +4,7 @@
     <TargetFramework>netstandard1.1</TargetFramework>
     <PackageId>Secullum.GitLabApi</PackageId>
     <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>beta4</VersionSuffix>
+    <VersionSuffix>beta5</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
