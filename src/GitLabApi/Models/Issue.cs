@@ -11,7 +11,9 @@ namespace GitLabApi.Models
             [JsonProperty("opened")]
             Opened,
             [JsonProperty("closed")]
-            Closed
+            Closed,
+            [JsonProperty("reopened")]
+            Reopened
         }
 
         [JsonProperty("id")]
