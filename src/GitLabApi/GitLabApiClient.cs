@@ -16,12 +16,12 @@ namespace GitLabApi
         public string ServerUrl { get; set; } = "https://gitlab.com";
         public string PrivateToken { get; set; }
 
-        public async Task<IEnumerable<Milestone>> ListMilestonesAsync(string projectNamespace)
+        public async Task<IEnumerable<Milestone>> ListProjectMilestonesAsync(string projectNamespace)
         {
-            return await ListMilestonesAsync(projectNamespace, null);
+            return await ListProjectMilestonesAsync(projectNamespace, null);
         }
 
-        public async Task<IEnumerable<Milestone>> ListMilestonesAsync(string projectNamespace, ListMilestonesFilters filters)
+        public async Task<IEnumerable<Milestone>> ListProjectMilestonesAsync(string projectNamespace, ListMilestonesFilters filters)
         {
             try
             {
@@ -38,12 +38,49 @@ namespace GitLabApi
             }
         }
 
-        public async Task<Milestone> GetMilestoneAsync(string projectNamespace, int milestoneId)
+        public async Task<Milestone> GetProjectMilestoneAsync(string projectNamespace, int milestoneId)
         {
             try
             {
                 var qsb = CreateQueryStringBuilder();
                 var url = CreateUrl("/projects/{0}/milestones/{1}", projectNamespace, milestoneId.ToString());
+
+                return await GetJsonAsync<Milestone>(url, qsb);
+            }
+            catch (Exception ex)
+            {
+                throw new GitLabApiException("An error has occurred", ex);
+            }
+        }
+
+        public async Task<IEnumerable<Milestone>> ListGroupMilestonesAsync(string groupNamespace)
+        {
+            return await ListGroupMilestonesAsync(groupNamespace, null);
+        }
+
+        public async Task<IEnumerable<Milestone>> ListGroupMilestonesAsync(string groupNamespace, ListMilestonesFilters filters)
+        {
+            try
+            {
+                var qsb = CreateQueryStringBuilder();
+                var url = CreateUrl("/groups/{0}/milestones", groupNamespace);
+
+                filters?.AddToQueryString(qsb);
+
+                return await GetAllPagesAsync<Milestone>(url, qsb);
+            }
+            catch (Exception ex)
+            {
+                throw new GitLabApiException("An error has occurred", ex);
+            }
+        }
+
+        public async Task<Milestone> GetGroupMilestoneAsync(string groupNamespace, int milestoneId)
+        {
+            try
+            {
+                var qsb = CreateQueryStringBuilder();
+                var url = CreateUrl("/groups/{0}/milestones/{1}", groupNamespace, milestoneId.ToString());
 
                 return await GetJsonAsync<Milestone>(url, qsb);
             }
