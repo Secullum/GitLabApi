@@ -3,8 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Secullum.GitLabApi</PackageId>
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>beta7</VersionSuffix>
+    <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
